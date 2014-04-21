@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding" 
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding
+                http://castor.org/binding.xsd" defaultBindingType="type">
+		
+		<elementBinding name="/complexType:IteratableChangeSet/entry">
+			<member name="changeSetEntry"/>
+		</elementBinding>
+		
+		<elementBinding name="/complexType:CTS2Exception/message">
+			<member name="cts2Message"/>
+		</elementBinding>
+		
+		<complexTypeBinding name="/complexType:Changeable">    
+   			<java-class>
+   				<implements>edu.mayo.cts2.framework.model.core.IsChangeable</implements>
+   			</java-class>  
+		</complexTypeBinding>
+		
+		<complexTypeBinding name="/complexType:NamedEntityDescription">    
+   			<java-class>
+   				<implements>edu.mayo.cts2.framework.model.core.IsChangeable</implements>
+   			</java-class>  
+		</complexTypeBinding>
+
+        <complexTypeBinding name="/complexType:resolve">
+            <java-class>
+                <implements>edu.mayo.cts2.framework.model.wsdl.SoapResolveRequest</implements>
+            </java-class>
+        </complexTypeBinding>
+
+</binding>

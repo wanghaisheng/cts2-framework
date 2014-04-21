@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.mayo.cts2</groupId>
 	<artifactId>cts2-framework</artifactId>
-	<version>0.7.3-SNAPSHOT</version>
+	<version>1.1.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>CTS2 Development Framework</name>
@@ -42,17 +41,18 @@
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:cts2/cts2-framework.git</developerConnection>
-	</scm>
+	  <tag>HEAD</tag>
+  </scm>
 
 	<modules>
-		<module>model</module>
-		<module>core</module>
-		<module>filter</module>
-		<module>service</module>
-		<module>webapp-rest-extensions</module>
-		<module>webapp</module>
-		<module>base-service-plugin</module>
-		<module>plugin-util</module>
+		<module>cts2-model</module>
+		<module>cts2-core</module>
+		<module>cts2-filter</module>
+		<module>cts2-service</module>
+		<module>cts2-webapp-rest-extensions</module>
+		<module>cts2-webapp</module>
+		<module>cts2-base-service-plugin</module>
+		<module>cts2-plugin-util</module>
 	</modules>
 
 	<properties>
@@ -109,17 +109,16 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.2.2</version>
 				<configuration>
 					<goals>deploy</goals>
-					<autoversionsubmodules>true</autoversionsubmodules>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
 				</configuration>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.2</version>
+				<version>2.4</version>
 				<executions>
 					<execution>
 						<goals>
@@ -136,6 +135,21 @@
 				<configuration>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
@@ -158,7 +172,8 @@
 				<version>1.2</version>
 				<configuration>
 					<providerSelection>1.7</providerSelection>
-				</configuration>
+                    <source />
+                </configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -220,8 +235,8 @@
 							<goal>test</goal>
 						</goals>
 						<configuration>
-							<argline>-Xmx1028m</argline>
-							<argline>-XX:MaxPermSize=${test.permgen.max}</argline>
+							<argLine>-Xmx1028m</argLine>
+							<argLine>-XX:MaxPermSize=${test.permgen.max}</argLine>
 							<excludes>
 								<exclude>**/*IT.*</exclude>
 							</excludes>
@@ -240,8 +255,8 @@
 							<goal>test</goal>
 						</goals>
 						<configuration>
-							<argline>-Xmx1028m</argline>
-							<argline>-XX:MaxPermSize=${test.permgen.max}</argline>
+							<argLine>-Xmx1028m</argLine>
+							<argLine>-XX:MaxPermSize=${test.permgen.max}</argLine>
 							<includes>
 								<include>**/*IT.*</include>
 							</includes>
@@ -250,6 +265,15 @@
 				</executions>
 			</plugin>
 
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+	        </plugin>
+
+		</plugins>
+		<pluginManagement>
+			<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
@@ -282,19 +306,33 @@
 							<groupId>org.apache.maven.plugins</groupId>
 							<artifactId>maven-project-info-reports-plugin</artifactId>
 							<version>2.2</version>
+                            <configuration>
+                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                            </configuration>
 						</plugin>
 					</reportPlugins>
 				</configuration>
 			</plugin>
-		</plugins>
-		<pluginManagement>
-			<plugins>
+			
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<version>2.7</version>
 				</plugin>
 			
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>2.4</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.3.2</version>
+				</plugin>
+				
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 
@@ -399,6 +437,13 @@
 			<version>1.6.1</version>
 			<scope>test</scope>
 		</dependency>
+
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+
 		<!-- Test -->
 		<dependency>
 			<groupId>junit</groupId>
